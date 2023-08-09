@@ -1,0 +1,1 @@
+Releases: https://github.com/aws/eks-charts/edit/gh-pages/README.md

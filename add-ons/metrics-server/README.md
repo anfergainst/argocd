@@ -1,0 +1,2 @@
+Documentation: https://github.com/kubernetes-sigs/metrics-server/tree/master/charts/metrics-server
+Releases: https://github.com/kubernetes-sigs/metrics-server/releases (search for metrics-server-helm-chart-)
