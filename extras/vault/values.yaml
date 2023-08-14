@@ -769,7 +769,8 @@ server:
   # the "file" backend.  This mode is not highly available and should not be scaled
   # past a single replica.
   standalone:
-    enabled: "-"
+    # enabled: "-"
+    enabled: false
 
     # config is a raw string of default configuration when using a Stateful
     # deployment. Default is to use a PersistentVolumeClaim mounted at /vault/data
@@ -818,7 +819,7 @@ server:
   # Helm project by default.  It is possible to manually configure Vault to use a
   # different HA backend.
   ha:
-    enabled: false
+    enabled: true
     replicas: 3
 
     # Set the api_addr configuration for Vault HA
@@ -926,7 +927,9 @@ server:
     # Extra annotations for the serviceAccount definition. This can either be
     # YAML or a YAML-formatted multi-line templated string map of the
     # annotations to apply to the serviceAccount.
-    annotations: {}
+    # annotations: {}
+    annotations:
+      eks.amazonaws.com/role-arn: arn:aws:iam::969852750332:role/dc-eu-eks-ent-euc1-v01-hcp-vault-role
     # Extra labels to attach to the serviceAccount
     # This should be a YAML map of the labels to apply to the serviceAccount
     extraLabels: {}
