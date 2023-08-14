@@ -9,13 +9,13 @@ argoNamespace: ''
 argoProject: ''
 
 # Agones Values
-agones: 
-  enable: false 
+agones:
+  enable: false
   createNamespace: true
 
 # App Mesh Values
-appMesh: 
-  enable: false 
+appMesh:
+  enable: false
   createNamespace: true
 
 # Calico Values
@@ -24,7 +24,7 @@ calico:
 
 # AWS CloudWatch Metrics Values
 awsCloudWatchMetrics:
-  enable: false
+  enable: true
   createNamespace: true
   serviceAccountName:
 
@@ -42,7 +42,7 @@ awsForFluentBit:
 
 # AWS Load Balancer Controller Values
 awsLoadBalancerController:
-  enable: false
+  enable: true
   createNamespace: true
   serviceAccountName:
   podDisruptionBudget:
@@ -64,7 +64,7 @@ awsLoadBalancerController:
 
 # AWS Node Termination Handler Values
 awsNodeTerminationHandler:
-  enable: false
+  enable: true
   serviceAccountName:
 
 # AWS Otel Collector Values
@@ -99,7 +99,7 @@ strimziKafkaOperator:
 
 # External DNS Values
 externalDns:
-  enable: false
+  enable: true
   createNamespace: true
   serviceAccountName:
   zoneIdFilter:
@@ -116,7 +116,7 @@ gatekeeper:
 
 # Nginx Values
 ingressNginx:
-  enable: false
+  enable: true
   createNamespace: true
 
 # Grafana default Values
@@ -146,7 +146,7 @@ keda:
 
 # Metrics Server Values
 metricsServer:
-  enable: false
+  enable: true
 
 # Ondat Values
 ondat:
@@ -228,7 +228,7 @@ kubeStateMetrics:
 promtheusNodeExporter:
   enable: false
   serviceAccountName:
-  
+
 # Kubernetes Dashboard Values
 kubernetesDashboard:
   enable: false
@@ -279,7 +279,7 @@ nvidiaDevicePlugin:
 # Consul Values
 consul:
   enable: false
-  
+
 velero:
   enable: false
 
