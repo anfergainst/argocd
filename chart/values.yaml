@@ -42,7 +42,7 @@ awsForFluentBit:
 
 # AWS Load Balancer Controller Values
 awsLoadBalancerController:
-  enable: true
+  enable: false
   createNamespace: true
   serviceAccountName:
   # createServiceAccount: true
