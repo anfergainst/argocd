@@ -1,0 +1,44 @@
+apiVersion: v2
+name: aws-load-balancer-controller
+description: A Helm chart for installing the AWS Load balancer controller
+type: application
+
+# The chart version. This version number should be incremented each time you make changes
+# to the chart and its templates, including the app version.
+version: 0.1.4
+
+# Version number of the application being deployed. This version number should be
+# incremented each time you make changes to the application.
+appVersion: "1.4"
+
+dependencies:
+- name: aws-load-balancer-controller
+  version: 1.6.0
+  repository: https://aws.github.io/eks-charts
+
+icon: https://raw.githubusercontent.com/aws/eks-charts/master/docs/logo/aws.png
+
+home: https://github.com/aws/eks-charts
+
+keywords:
+  - eks
+  - alb
+  - load balancer
+  - ingress
+  - nlb
+
+# apiVersion: v2
+# name: aws-load-balancer-controller
+# description: AWS Load Balancer Controller Helm chart for Kubernetes
+# version: 1.6.0
+# appVersion: "1.1"
+# home: https://github.com/aws/eks-charts
+# icon: https://raw.githubusercontent.com/aws/eks-charts/master/docs/logo/aws.png
+# sources:
+#   - https://github.com/aws/eks-charts
+# keywords:
+#   - eks
+#   - alb
+#   - load balancer
+#   - ingress
+#   - nlb
