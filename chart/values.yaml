@@ -45,6 +45,8 @@ awsLoadBalancerController:
   enable: true
   createNamespace: true
   serviceAccountName:
+  createServiceAccount:
+    # create: false
   podDisruptionBudget:
     maxUnavailable: 1
   respectIgnoreDifferences: true
