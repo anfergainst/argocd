@@ -13,5 +13,6 @@ appVersion: "1.0"
 
 dependencies:
 - name: aws-cloudwatch-metrics
+  # https://github.com/aws/eks-charts/edit/gh-pages/README.md (search in list)
   version: 0.0.9
   repository: https://aws.github.io/eks-charts
