@@ -563,6 +563,8 @@ server:
   extraEnvironmentVars:
     VAULT_SEAL_TYPE: awskms
     KMS_ROLE_NAME: dc-eu-eks-ent-euc1-v01-hcp-vault-role
+    AWS_REGION: eu-central-1
+    AWS_DEFAULT_REGION: eu-central-1
     # GOOGLE_REGION: global
     # GOOGLE_PROJECT: myproject
     # GOOGLE_APPLICATION_CREDENTIALS: /vault/userconfig/myproject/myproject-creds.json
@@ -681,7 +683,7 @@ server:
 
     # Configures the service type for the main Vault service.  Can be ClusterIP
     # or NodePort.
-    #type: ClusterIP
+    type: NodePort # ClusterIP
 
     # Do not wait for pods to be ready before including them in the services'
     # targets. Does not apply to the headless service, which is used for
@@ -877,7 +879,8 @@ server:
     config: |
       ui = true
       # cluster_name = "dc-eu-eks-ent-euc1-v01-vault"
-      # log_level = "INFO"
+      log_level = "INFO"
+      # disable_mlock = true
 
       listener "tcp" {
         tls_disable = 1
@@ -924,7 +927,6 @@ server:
       # api_addr = "https://vault-us-east-1.example.com:8200"
       # cluster_addr = " https://node-a-us-east-1.example.com:8201"
       # license_path = "/opt/vault/vault.hcl"
-      # disable_mlock=true
 
     # A disruption budget limits the number of pods of a replicated application
     # that are down simultaneously from voluntary disruptions

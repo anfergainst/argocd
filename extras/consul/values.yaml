@@ -1688,7 +1688,7 @@ dns:
   # Used to control the type of service created. For
   # example, setting this to "LoadBalancer" will create an external load
   # balancer (for supported K8S installations)
-  type: ClusterIP
+  type: NodePort # ClusterIP
 
   # Set a predefined cluster IP for the DNS service.
   # Useful if you need to reference the DNS service's IP
@@ -2916,6 +2916,7 @@ ingressGateways:
     service:
       # Type of service: LoadBalancer, ClusterIP or NodePort. If using NodePort service
       # type, you must set the desired nodePorts in the `ports` setting below.
+      # type: NodePort # ClusterIP
       type: ClusterIP
 
       # Ports that will be exposed on the service and gateway container. Any
