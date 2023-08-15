@@ -1689,7 +1689,7 @@ dns:
   # Used to control the type of service created. For
   # example, setting this to "LoadBalancer" will create an external load
   # balancer (for supported K8S installations)
-  type: NodePort # ClusterIP
+  type: ClusterIP # NodePort # ClusterIP
 
   # Set a predefined cluster IP for the DNS service.
   # Useful if you need to reference the DNS service's IP
