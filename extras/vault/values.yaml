@@ -12,7 +12,7 @@ global:
   enabled: true
 
   # The namespace to deploy to. Defaults to the `helm` installation namespace.
-  namespace: ""
+  namespace: "consul"
 
   # Image pull secret to use for registry authentication.
   # Alternatively, the value may be specified as an array of strings.
@@ -895,7 +895,7 @@ server:
 
       storage "consul" {
         path = "vault"
-        address = "consul-consul-server.consul:8500"
+        address = "consul-server.consul:8500"
       }
 
       # storage "s3" {

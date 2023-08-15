@@ -25,7 +25,7 @@ global:
   # Set the prefix used for all resources in the Helm chart. If not set,
   # the prefix will be `<helm release name>-consul`.
   # @type: string
-  name: null
+  name: consul
 
   # The domain Consul will answer DNS queries for
   # (Refer to [`-domain`](https://developer.hashicorp.com/consul/docs/agent/config/cli-flags#_domain)) and the domain services synced from
@@ -834,7 +834,7 @@ server:
   # servers' StatefulSet storage. For dynamically provisioned storage classes, this is the
   # desired size. For manually defined persistent volumes, this should be set to
   # the disk size of the attached volume.
-  storage: 10Gi
+  storage: 25Gi
 
   # The StorageClass to use for the servers' StatefulSet storage. It must be
   # able to be dynamically provisioned if you want the storage
