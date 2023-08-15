@@ -876,16 +876,32 @@ server:
     # https://www.vaultproject.io/docs/platform/k8s/helm/run#protecting-sensitive-vault-configurations
     config: |
       ui = true
+      # cluster_name = "dc-eu-eks-ent-euc1-v01-vault"
+      # log_level = "INFO"
 
       listener "tcp" {
         tls_disable = 1
         address = "[::]:8200"
         cluster_address = "[::]:8201"
+        # address = "0.0.0.0:8200"
+        # cluster_address = "0.0.0.0:8201"
+        # tls_cert_file = "/etc/vault.d/client.pem"
+        # tls_key_file = "/etc/vault.d/cert.key"
+        # tls_disable_client_certs = "true"
       }
+
       storage "consul" {
         path = "vault"
-        address = "consul-consul-server:8500"
+        address = "consul-consul-server.consul:8500"
       }
+
+      # storage "s3" {
+      #  # access_key = "abcd1234"
+      #  # secret_key = "defg5678"
+      #   bucket     = "dc-eu-co-euc1-ent-devops-config"
+      #   path       = "dc-eu-eks-ent-euc1-v01/"
+      #   kms_key_id = "$VAULT_AWSKMS_S3_KEY_ID"
+      # }
 
       service_registration "kubernetes" {}
 
@@ -897,7 +913,6 @@ server:
       #   endpoint   = "https://vpce-0e1bb1852241f8cc6-pzi0do8n.kms.us-east-1.vpce.amazonaws.com"
       # }
 
-
       # Example configuration for enabling Prometheus metrics.
       # If you are using Prometheus Operator you can enable a ServiceMonitor resource below.
       # You may wish to enable unauthenticated metrics in the listener block above.
@@ -905,6 +920,11 @@ server:
       #  prometheus_retention_time = "30s"
       #  disable_hostname = true
       #}
+
+      # api_addr = "https://vault-us-east-1.example.com:8200"
+      # cluster_addr = " https://node-a-us-east-1.example.com:8201"
+      # license_path = "/opt/vault/vault.hcl"
+      # disable_mlock=true
 
     # A disruption budget limits the number of pods of a replicated application
     # that are down simultaneously from voluntary disruptions
