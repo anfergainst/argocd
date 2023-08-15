@@ -851,7 +851,7 @@ server:
   # contains best practices and recommendations for selecting suitable
   # hardware sizes for your Consul servers.
   # @type: string
-  storageClass: ebs-sc # ebs-sc is gp3 -> null for default
+  storageClass: gp3 # old name: ebs-sc # null for default
 
   # This will enable/disable [service mesh](https://developer.hashicorp.com/consul/docs/connect). Setting this to true
   # _will not_ automatically secure pod communication, this
