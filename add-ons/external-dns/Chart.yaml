@@ -9,7 +9,7 @@ type: application
 # The chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 version: 6.23.3 # get this version with "helm search repo bitnami"
-
+# docker.io/bitnami/external-dns:0.13.2-debian-11-r0
 # Version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application.
 appVersion: "0.13.5"
