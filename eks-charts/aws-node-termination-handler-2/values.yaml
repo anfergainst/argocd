@@ -135,7 +135,9 @@ serviceAccount:
     name: ""
 
     # Annotations to add to the service account.
-    annotations: {}
+  # annotations: {}
+    annotations:
+        eks.amazonaws.com/role-arn: arn:aws:iam::969852750332:role/dc-eu-eks-ent-euc1-v01-node-termination-handler
         # "eks.amazonaws.com/role-arn": <Service Account ARN>
 
 webhook:

@@ -17,7 +17,9 @@ serviceAccount:
   create: true
   # The name of the service account to use. If namenot set and create is true, a name is generated using fullname template
   name:
-  annotations: {}
+  # annotations: {}
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::969852750332:role/dc-eu-eks-ent-euc1-v01-node-termination-handler
   #   eks.amazonaws.com/role-arn: arn:aws:iam::AWS_ACCOUNT_ID:role/IAM_ROLE_NAME
 
 rbac:
