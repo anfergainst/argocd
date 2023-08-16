@@ -318,7 +318,7 @@ global:
     # If true, turns on the auto-encrypt feature on clients and servers.
     # It also switches consul-k8s-control-plane components to retrieve the CA from the servers
     # via the API. Requires Consul 1.7.1+.
-    enableAutoEncrypt: false
+    enableAutoEncrypt: true
 
     # A list of additional DNS names to set as Subject Alternative Names (SANs)
     # in the server certificate. This is useful when you need to access the
