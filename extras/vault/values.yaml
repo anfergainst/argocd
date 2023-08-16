@@ -919,7 +919,8 @@ server:
       }
 
       storage "consul" {
-        path = "vault"
+        scheme  = "https"
+        path    = "vault"
         address = "consul-server.consul:8500"
       }
 
