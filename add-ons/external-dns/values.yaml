@@ -1,18 +1,19 @@
-# external-dns:
-#   enabled: true
-#   serviceAccount:
-#     # Specifies whether a service account should be created
-#     create: true
-#     # Annotations to add to the service account
-#     annotations: {
-#       eks.amazonaws.com/role-arn: arn:aws:iam::969852750332:role/external-dns
-#     }
-#     # Labels to add to the service account
-#     labels: {}
-#     # The name of the service account to use.
-#     # If not set and create is true, a name is generated using the fullname template
-#     name: "external-dns-sa"
-#   provider: "aws"
+external-dns:
+  enabled: true
+  createNamespace: true
+  serviceAccount:
+    # Specifies whether a service account should be created
+    create: true
+    # Annotations to add to the service account
+    annotations: {
+      eks.amazonaws.com/role-arn: arn:aws:iam::969852750332:role/external-dns
+    }
+    # Labels to add to the service account
+    labels: {}
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name: "external-dns-sa"
+  provider: "aws"
 
 # https://github.com/kubernetes-sigs/external-dns/blob/master/charts/external-dns/values.yaml
 # Default values for external-dns.
@@ -43,7 +44,7 @@ serviceAccount:
   labels: {}
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: "external-dns-sa"
+  name: "external-dns-s"
 
 rbac:
   # Specifies whether RBAC resources should be created
