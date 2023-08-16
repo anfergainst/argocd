@@ -20,7 +20,9 @@ serviceAccount:
   # Specifies whether a service account should be created
   create: true
   # Annotations to add to the service account
-  annotations: {}
+  annotations: {
+    eks.amazonaws.com/role-arn: arn:aws:iam::969852750332:role/external-dns
+  }
   # Labels to add to the service account
   labels: {}
   # The name of the service account to use.
