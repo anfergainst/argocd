@@ -15,10 +15,10 @@ version: 1.13.0
 # incremented each time you make changes to the application.
 appVersion: 0.13.5 # get this version with "helm search repo bitnami"
 
-dependencies:
-  - name: external-dns
-    version: 6.23.3
-    repository: https://charts.bitnami.com/bitnami
+# dependencies:
+#   - name: external-dns
+#     version: 6.23.3
+#     repository: https://charts.bitnami.com/bitnami
 
 keywords:
   - kubernetes
