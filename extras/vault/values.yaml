@@ -880,7 +880,7 @@ server:
       ui = true
       # cluster_name = "dc-eu-eks-ent-euc1-v01-vault"
       log_level = "INFO"
-      # disable_mlock = true
+      disable_mlock = false
 
       listener "tcp" {
         tls_disable = 1
