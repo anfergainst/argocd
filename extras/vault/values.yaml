@@ -908,13 +908,14 @@ server:
 
       service_registration "kubernetes" {}
 
-      # seal "awskms" {
-      #   region     = "us-east-1"
+      seal "awskms" {
+        region     = $AWS_REGION
+        kms_key_id = "$VAULT_AWSKMS_SEAL_KEY_ID"
+      }
       #   access_key = "AKIAIOSFODNN7EXAMPLE"
       #   secret_key = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
       #   kms_key_id = "19ec80b0-dfdd-4d97-8164-c6examplekey"
       #   endpoint   = "https://vpce-0e1bb1852241f8cc6-pzi0do8n.kms.us-east-1.vpce.amazonaws.com"
-      # }
 
       # Example configuration for enabling Prometheus metrics.
       # If you are using Prometheus Operator you can enable a ServiceMonitor resource below.
