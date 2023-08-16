@@ -1,6 +1,7 @@
+# https://github.com/kubernetes-sigs/external-dns/blob/master/charts/external-dns/Chart.yaml
 apiVersion: v2
 name: external-dns
-description: A Helm chart for External DNS
+description: ExternalDNS synchronizes exposed Kubernetes Services and Ingresses with DNS providers
 
 # Application charts are a collection of templates that can be packaged into versioned archives
 # to be deployed.
@@ -8,13 +9,25 @@ type: application
 
 # The chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
-version: 6.23.3 # get this version with "helm search repo bitnami"
+version: 1.13.0
 # docker.io/bitnami/external-dns:0.13.2-debian-11-r0
 # Version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application.
-appVersion: "0.13.5"
+appVersion: 0.13.5 # get this version with "helm search repo bitnami"
 
 dependencies:
   - name: external-dns
     version: 6.23.3
     repository: https://charts.bitnami.com/bitnami
+
+keywords:
+  - kubernetes
+  - externaldns
+  - external-dns
+  - dns
+  - service
+  - ingress
+home: https://github.com/kubernetes-sigs/external-dns/
+icon: https://github.com/kubernetes-sigs/external-dns/raw/master/docs/img/external-dns.png
+sources:
+  - https://github.com/kubernetes-sigs/external-dns/
