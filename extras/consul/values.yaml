@@ -309,7 +309,7 @@ global:
     # servers and clients and all consul-k8s-control-plane components, as well as generate certificate
     # authority (optional) and server and client certificates.
     # This setting is required for [Cluster Peering](https://developer.hashicorp.com/consul/docs/connect/cluster-peering/k8s).
-    enabled: false
+    enabled: true
 
     # Override global log verbosity level. One of "trace", "debug", "info", "warn", or "error".
     # @type: string

@@ -69,14 +69,16 @@ injector:
   externalVaultAddr: ""
 
   # image sets the repo and tag of the vault-k8s image to use for the injector.
+  # https://hub.docker.com/r/hashicorp/vault-k8s/tags
   image:
     repository: "hashicorp/vault-k8s"
-    tag: "1.2.1"
+    tag: "1.3.0"
     pullPolicy: IfNotPresent
 
   # agentImage sets the repo and tag of the Vault image to use for the Vault Agent
   # containers.  This should be set to the official Vault image.  Vault 1.3.1+ is
   # required.
+  # helm search repo hashicorp/vault
   agentImage:
     repository: "hashicorp/vault"
     tag: "1.14.0"
@@ -476,8 +478,16 @@ server:
   # This is useful if you need to run a script to provision TLS certificates or
   # write out configuration files in a dynamic way.
   extraInitContainers: null
+  # extraInitContainers:
     # # This example installs a plugin pulled from github into the /usr/local/libexec/vault/oauthapp folder,
     # # which is defined in the volumes value.
+    # - name: oidc
+    #   image: "alpine"
+    #   command: [sh, -c]
+    #   args:
+    #     - cd /tmp &&
+    #       vault auth enable azure &&
+    #       tar -xf oauthapp.xz
     # - name: oauthapp
     #   image: "alpine"
     #   command: [sh, -c]
@@ -511,7 +521,8 @@ server:
   readinessProbe:
     enabled: true
     # If you need to use a http path instead of the default exec
-    # path: /v1/sys/health?standbyok=true
+    # path: '/v1/sys/health?standbyok=true'
+    path: '/v1/sys/health?standbyok=true&sealedcode=204&uninitcode=204'
 
     # Port number on which readinessProbe will be checked.
     port: 8200
@@ -527,8 +538,8 @@ server:
     timeoutSeconds: 3
   # Used to enable a livenessProbe for the pods
   livenessProbe:
-    enabled: false
-    path: "/v1/sys/health?standbyok=true"
+    enabled: true
+    path: '/v1/sys/health?standbyok=true&sealedcode=204&uninitcode=204'
     # Port number on which livenessProbe will be checked.
     port: 8200
     # When a probe fails, Kubernetes will try failureThreshold times before giving up
@@ -576,6 +587,20 @@ server:
     - envName: VAULT_AWSKMS_SEAL_KEY_ID
       secretName: euc1-ent-k8s-vault
       secretKey: vault_awskms_seal_key_id
+
+  # extraSecretEnvironmentVars:
+  #   - envName: AWS_ACCESS_KEY_ID
+  #     secretName: vault-aws-auth
+  #     secretKey: VAULT_AWS_ACCESS_KEY_ID
+  #   - envName: AWS_SECRET_ACCESS_KEY
+  #     secretName: vault-aws-auth
+  #     secretKey: VAULT_AWS_SECRET_ACCESS_KEY
+  #   - envName: AWS_REGION
+  #     secretName: vault-aws-auth
+  #     secretKey: VAULT_AWS_REGION
+  #   - envName: VAULT_AWSKMS_SEAL_KEY_ID
+  #     secretName: vault-aws-auth
+  #     secretKey: VAULT_AWSKMS_SEAL_KEY_ID
 
   # Deprecated: please use 'volumes' instead.
   # extraVolumes is a list of extra volumes to mount. These will be exposed
@@ -883,11 +908,11 @@ server:
       disable_mlock = false
 
       listener "tcp" {
-        tls_disable = 1
-        address = "[::]:8200"
-        cluster_address = "[::]:8201"
-        # address = "0.0.0.0:8200"
-        # cluster_address = "0.0.0.0:8201"
+        tls_disable = 0
+        # address = "[::]:8200"
+        # cluster_address = "[::]:8201"
+        address = "0.0.0.0:8200"
+        cluster_address = "0.0.0.0:8201"
         # tls_cert_file = "/etc/vault.d/client.pem"
         # tls_key_file = "/etc/vault.d/cert.key"
         # tls_disable_client_certs = "true"
