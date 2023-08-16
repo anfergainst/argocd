@@ -337,7 +337,7 @@ global:
     # Set this to false to incrementally roll out TLS on an existing Consul cluster.
     # Please refer to [TLS on existing clusters](https://developer.hashicorp.com/consul/docs/k8s/operations/tls-on-existing-cluster)
     # for more details.
-    verify: true
+    verify: false
 
     # If true, the Helm chart will configure Consul to disable the HTTP port on
     # both clients and servers and to only accept HTTPS connections.
