@@ -921,7 +921,7 @@ server:
       storage "consul" {
         scheme  = "https"
         path    = "vault"
-        address = "consul-server.consul:8500"
+        address = "consul-server.consul:8501"
       }
 
       # storage "s3" {
