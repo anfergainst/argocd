@@ -919,9 +919,13 @@ server:
       }
 
       storage "consul" {
-        scheme  = "https"
-        path    = "vault"
-        address = "consul-server.consul:8501"
+        scheme          = "https"
+        tls_skip_verify = true
+        path            = "vault"
+        address         = "consul-server.consul:8501"
+        # tls_ca_file   = "/etc/pem/vault.ca"
+        # tls_cert_file = "/etc/pem/vault.cert"
+        # tls_key_file  = "/etc/pem/vault.key"
       }
 
       # storage "s3" {
@@ -934,12 +938,12 @@ server:
 
       service_registration "kubernetes" {}
 
-      seal "awskms" {
-        region     = "eu-central-1"
-        kms_key_id = "mrk-672b8b418ec1451889a01ac08eb0707f"
-      }
-      #   access_key = "AKIAIOSFODNN7EXAMPLE"
-      #   secret_key = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+      # seal "awskms" {
+      #   region     = "eu-central-1"
+      #   kms_key_id = "mrk-xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+      # }
+      #   access_key = "AKIXXXXXXXXXXXXXXXXXXXX"
+      #   secret_key = "EXAMPLEKEY/EXAMPLEKEY/EXAMPLEKEYEXAMPLEKEY"
       #   kms_key_id = "19ec80b0-dfdd-4d97-8164-c6examplekey"
       #   endpoint   = "https://vpce-0e1bb1852241f8cc6-pzi0do8n.kms.us-east-1.vpce.amazonaws.com"
 
