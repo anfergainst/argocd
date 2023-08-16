@@ -20,6 +20,9 @@ dependencies:
     version: 6.23.3
     repository: https://charts.bitnami.com/bitnami
 
+# valuesFiles:
+#   - values.yaml
+
 keywords:
   - kubernetes
   - externaldns
@@ -29,5 +32,5 @@ keywords:
   - ingress
 home: https://github.com/kubernetes-sigs/external-dns/
 icon: https://github.com/kubernetes-sigs/external-dns/raw/master/docs/img/external-dns.png
-sources:
-  - https://github.com/kubernetes-sigs/external-dns/
+# sources:
+#   - https://github.com/kubernetes-sigs/external-dns/
