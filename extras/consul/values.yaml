@@ -1846,10 +1846,10 @@ ui:
     # ```
     # @type: string
     # annotations: null
-    annotations:
-      alb.ingress.kubernetes.io/scheme: internet-facing
-      alb.ingress.kubernetes.io/target-type: instance
-      alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:eu-central-1:969852750332:certificate/3af76da4-345b-4169-8c62-ce17616dd665
+    annotations: |
+      "alb.ingress.kubernetes.io/scheme: internet-facing"
+      "alb.ingress.kubernetes.io/target-type: instance"
+      "alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:eu-central-1:969852750332:certificate/3af76da4-345b-4169-8c62-ce17616dd665"
 
   # Configurations for displaying metrics in the UI.
   metrics:
