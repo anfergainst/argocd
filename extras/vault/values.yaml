@@ -527,6 +527,7 @@ server:
 
     # Port number on which readinessProbe will be checked.
     port: 8200
+    scheme: HTTPS
     # When a probe fails, Kubernetes will try failureThreshold times before giving up
     failureThreshold: 2
     # Number of seconds after the container has started before probe initiates
@@ -543,6 +544,7 @@ server:
     path: '/v1/sys/health?standbyok=true&sealedcode=204&uninitcode=204'
     # Port number on which livenessProbe will be checked.
     port: 8200
+    scheme: HTTPS
     # When a probe fails, Kubernetes will try failureThreshold times before giving up
     failureThreshold: 2
     # Number of seconds after the container has started before probe initiates
