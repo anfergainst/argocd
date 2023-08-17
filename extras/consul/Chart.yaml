@@ -16,13 +16,17 @@ annotations:
   artifacthub.io/prerelease: false
   artifacthub.io/images: |
     - name: consul
-      image: docker.mirror.hashicorp.services/hashicorppreview/consul-enterprise:1.16.1
+      image: hashicorp/consul-enterprise:1.16.1
     - name: consul-k8s-control-plane
-      image: docker.mirror.hashicorp.services/hashicorppreview/consul-k8s-control-plane:1.2.1
+      image: hashicorp/consul-k8s-control-plane:1.2.1
     - name: consul-dataplane
-      image: docker.mirror.hashicorp.services/hashicorppreview/consul-dataplane:1.2.1
+      image: hashicorp/consul-dataplane:1.2.1
     - name: envoy
       image: envoyproxy/envoy:v1.27.0
+
+# image: docker.mirror.hashicorp.services/hashicorppreview/consul-enterprise:1.16.1
+# image: docker.mirror.hashicorp.services/hashicorppreview/consul-k8s-control-plane:1.2.1
+# image: docker.mirror.hashicorp.services/hashicorppreview/consul-dataplane:1.2.1
 
   artifacthub.io/license: MPL-2.0
   artifacthub.io/links: |
@@ -36,6 +40,7 @@ annotations:
     fingerprint: C874011F0AB405110D02105534365D9472D7468F
     url: https://keybase.io/hashicorp/pgp_keys.asc
 
+# https://hub.docker.com/r/envoyproxy/envoy
 # image: envoyproxy/envoy:v1.26.2
 # hashicorp/consul:1.16.1
 # hashicorp/consul-k8s-control-plane:1.2.1

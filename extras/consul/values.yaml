@@ -66,7 +66,7 @@ global:
   # image: "hashicorp/consul-enterprise:1.10.0-ent"
   # ```
   # @default: hashicorp/consul:<latest version>
-  # 
+  # https://github.com/hashicorp/consul
   ######### Get current image ##########
   # kubectl get statefulset --namespace consul consul-server --output=jsonpath="{@.spec.template.spec.containers[?(@.name=='consul')].image}"
   ######################################
@@ -98,7 +98,7 @@ global:
   # register as. This can't be changed once the Consul cluster is up and running
   # since Consul doesn't support an automatic way to change this value currently:
   # https://github.com/hashicorp/consul/issues/1858.
-  datacenter: dc-ent
+  datacenter: dc-eu
 
   # Controls whether pod security policies are created for the Consul components
   # created by this chart. Refer to https://kubernetes.io/docs/concepts/policy/pod-security-policy/.
