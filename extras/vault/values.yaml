@@ -243,7 +243,7 @@ injector:
     # private key to serve the injector webhook. If this is null, then the
     # injector will default to its automatic management mode that will assign
     # a service account to the injector to generate its own certificates.
-    secretName: null
+    secretName: consul-ca-client-cert
 
     # caBundle is a base64-encoded PEM-encoded certificate bundle for the CA
     # that signed the TLS certificate that the webhook serves. This must be set
