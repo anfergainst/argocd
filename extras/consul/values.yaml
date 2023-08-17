@@ -1850,14 +1850,6 @@ ui:
       'alb.ingress.kubernetes.io/scheme': internet-facing
       'alb.ingress.kubernetes.io/target-type': instance
       'alb.ingress.kubernetes.io/certificate-arn': arn:aws:acm:eu-central-1:969852750332:certificate/3af76da4-345b-4169-8c62-ce17616dd665
-      'alb.ingress.kubernetes.io/ssl-redirect': '443'
-      'alb.ingress.kubernetes.io/ssl-policy': ELBSecurityPolicy-TLS-1-2-Ext-2018-06
-      'nginx.ingress.kubernetes.io/use-regex': 'true'
-      'alb.ingress.kubernetes.io/backend-protocol': HTTPS
-      'alb.ingress.kubernetes.io/proxy-ssl-verify': 'off'
-      'alb.ingress.kubernetes.io/group.name': group
-      'alb.ingress.kubernetes.io/group.order': '3'
-      'external-dns.alpha.kubernetes.io/ingress-hostname-source': annotation-only
 
   # Configurations for displaying metrics in the UI.
   metrics:
