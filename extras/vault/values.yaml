@@ -527,7 +527,6 @@ server:
 
     # Port number on which readinessProbe will be checked.
     port: 8200
-    scheme: HTTPS
     # When a probe fails, Kubernetes will try failureThreshold times before giving up
     failureThreshold: 2
     # Number of seconds after the container has started before probe initiates
@@ -544,7 +543,6 @@ server:
     path: '/v1/sys/health?standbyok=true&sealedcode=204&uninitcode=204'
     # Port number on which livenessProbe will be checked.
     port: 8200
-    scheme: HTTPS
     # When a probe fails, Kubernetes will try failureThreshold times before giving up
     failureThreshold: 2
     # Number of seconds after the container has started before probe initiates
@@ -911,7 +909,7 @@ server:
       disable_mlock = false
 
       listener "tcp" {
-        tls_disable = 0
+        tls_disable = 1
         # address = "[::]:8200"
         # cluster_address = "[::]:8201"
         address = "0.0.0.0:8200"
