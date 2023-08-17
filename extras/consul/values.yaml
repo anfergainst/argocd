@@ -1123,8 +1123,8 @@ server:
   #
   # @type: string
   # annotations: null
-  annotations: |
-    argocd.argoproj.io/sync-options: Delete=false
+  # annotations: |
+  #   argocd.argoproj.io/sync-options: Delete=false
 
   # Configures a service to expose ports on the Consul servers over a Kubernetes Service.
   exposeService:

@@ -417,7 +417,7 @@ server:
     labels: {}
       # traffic: external
     # annotations: {}
-    annotations:
+    annotations: |
       #########################################################
       ################## NGINX INGRESS CORE ###################
       alb.ingress.kubernetes.io/scheme: internet-facing
@@ -767,8 +767,8 @@ server:
   # This can either be YAML or a YAML-formatted multi-line templated string map
   # of the annotations to apply to the server pods
   # annotations: {}
-  annotations:
-    argocd.argoproj.io/sync-options: Delete=false
+  # annotations: |
+  #   argocd.argoproj.io/sync-options: Delete=false
 
   # Enables a headless service to be used by the Vault Statefulset
   service:
