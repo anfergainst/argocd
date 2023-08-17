@@ -1122,7 +1122,9 @@ server:
   # ```
   #
   # @type: string
-  annotations: null
+  # annotations: null
+  annotations:
+    argocd.argoproj.io/sync-options: Delete=false
 
   # Configures a service to expose ports on the Consul servers over a Kubernetes Service.
   exposeService:
@@ -1779,10 +1781,10 @@ ui:
   ingress:
     # This will create an Ingress resource for the Consul UI.
     # @type: boolean
-    enabled: false
+    enabled: true
 
     # Optionally set the ingressClassName.
-    ingressClassName: ""
+    ingressClassName: "alb"
 
     # pathType override - refer to: https://kubernetes.io/docs/concepts/services-networking/ingress/#path-types
     pathType: Prefix
@@ -1798,7 +1800,22 @@ ui:
     # ```
     #
     # @type: array<map>
-    hosts: []
+    # hosts: []
+    # hosts:
+    #   - host: consul.euc1.ent.sc-cockpit.com
+    #     http:
+    #       paths:
+    #         - pathType: Prefix
+    #           path: /
+    #           backend:
+    #             service:
+    #               name: consul-ui
+    #               port:
+    #                 number: 443
+    hosts:
+      - host: consul.euc1.ent.sc-cockpit.com
+        paths:
+          - /
 
     # tls is a list of hosts and secret name in an Ingress
     # which tells the Ingress controller to secure the channel.
@@ -1810,7 +1827,14 @@ ui:
     #     secretName: testsecret-tls
     # ```
     # @type: array<map>
-    tls: []
+    # tls: []
+    tls:
+      - hosts:
+        - "ent.sc-cockpit.com"
+        - "*.ent.sc-cockpit.com"
+        - "euc1.ent.sc-cockpit.com"
+        - "*.euc1.ent.sc-cockpit.com"
+        secretName: tls-sccockpit-ent
 
     # Annotations to apply to the UI ingress.
     #
@@ -1821,7 +1845,72 @@ ui:
     #   'annotation-key': annotation-value
     # ```
     # @type: string
-    annotations: null
+    # annotations: null
+    annotations:
+      #########################################################
+      ################## NGINX INGRESS CORE ###################
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/target-type: instance
+      # alb.ingress.kubernetes.io/target-node-labels: "role=services"
+      #########################################################
+      ##################### SSL SETTINGS ###################### https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.5/guide/tasks/ssl_redirect/
+      # the ALB will fetch the right certificate from ACM
+      # you can also specify manually using `alb.ingress.kubernetes.io/certificate-arn` annotation on the Ingress
+      # https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/guide/ingress/annotations/#certificate-arn
+      alb.ingress.kubernetes.io/certificate-arn: "arn:aws:acm:eu-central-1:969852750332:certificate/3af76da4-345b-4169-8c62-ce17616dd665" # can be more than one with , # If not specified, ingress automatically try to find it in ACM.
+      alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
+      alb.ingress.kubernetes.io/ssl-redirect: '443'
+      alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-TLS-1-2-Ext-2018-06 # ELBSecurityPolicy-TLS-1-1-2017-01
+      nginx.ingress.kubernetes.io/use-regex: "true" # Use Regex
+      nginx.ingress.kubernetes.io/rewrite-target: /$2 # ALLOW Rewrites
+      alb.ingress.kubernetes.io/backend-protocol: HTTPS # HTTP or HTTPS - set which protocol will be used in backend
+      alb.ingress.kubernetes.io/proxy-ssl-verify: "off" ## TEST
+      alb.ingress.kubernetes.io/healthcheck-protocol: HTTPS
+      #########################################################
+      #################### ALB AUDIT LOGS #####################
+      # alb.ingress.kubernetes.io/load-balancer-attributes: "access_logs.s3.enabled=true,access_logs.s3.bucket=dc-eu-ent-eu-central-1-co-logs,access_logs.s3.prefix=eks_nginx_ingress_access_logs,idle_timeout.timeout_seconds=600"
+      alb.ingress.kubernetes.io/ip-address-type: ipv4 # ipv4 | dualstack
+      #########################################################
+      ################### SECURITY SETTINGS ###################
+      alb.ingress.kubernetes.io/inbound-cidrs: 0.0.0.0/0
+      #########################################################
+      ##################### HEALTH CHECK ######################
+      alb.ingress.kubernetes.io/healthcheck-port: '443'
+      alb.ingress.kubernetes.io/healthcheck-path: /
+      # alb.ingress.kubernetes.io/healthcheck-port: healthcheck
+      # alb.ingress.kubernetes.io/healthcheck-path: /healthz # Put the path of readiness probe over here
+      alb.ingress.kubernetes.io/healthcheck-interval-seconds: '15'
+      alb.ingress.kubernetes.io/healthcheck-timeout-seconds: '5'
+      alb.ingress.kubernetes.io/success-codes: '200' # or 200-300 without ''
+      alb.ingress.kubernetes.io/healthy-threshold-count: '2'
+      alb.ingress.kubernetes.io/unhealthy-threshold-count: '2'
+      #########################################################
+      ###### GROUPING INGRESS FROM DIFFERENT NAMESPACES #######
+      alb.ingress.kubernetes.io/group.name: group
+      alb.ingress.kubernetes.io/group.order: '3'
+      #########################################################
+      ############## EXTERNAL-DNS CONFIGURATIONS ##############
+      external-dns.alpha.kubernetes.io/ingress-hostname-source: annotation-only # defined-hosts-only or annotation-only # https://github.com/kubernetes-sigs/external-dns/blob/master/docs/faq.md
+      #########################################################
+      ################## NGINX CONFIGURATIONS #################
+      # nginx.org/client-max-body-size: "8m"
+      # nginx.org/proxy-connect-timeout: 600s
+      # nginx.org/proxy-read-timeout: 600s
+      # nginx.ingress.kubernetes.io/proxy-body-size: 8m
+      # nginx.ingress.kubernetes.io/proxy-body-size: "32m" ######
+      # nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+      # nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+      # nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
+      # nginx.ingress.kubernetes.io/proxy-buffers-number: "8"
+      # nginx.ingress.kubernetes.io/client-body-buffer-size: "128k"
+      # cert-manager.io/cluster-issuer: letsencrypt-prod-http
+      # cert-manager.io/cluster-issuer: letsencrypt-staging
+      # cert-manager.io/cluster-issuer: letsencrypt-prod-dns-aws
+      # cert-manager.io/cluster-issuer: letsencrypt-stag-dns-aws
+      #########################################################
+      ################## PERMANENT REDIRECT ################### <== Used in maintenances
+      # nginx.ingress.kubernetes.io/permanent-redirect: "https://www.clearops.com"
+      #########################################################
 
   # Configurations for displaying metrics in the UI.
   metrics:

@@ -413,10 +413,76 @@ server:
   # If deployment is on OpenShift, the following block is ignored.
   # In order to expose the service, use the route section below
   ingress:
-    enabled: false
+    enabled: true
     labels: {}
       # traffic: external
-    annotations: {}
+    # annotations: {}
+    annotations:
+      #########################################################
+      ################## NGINX INGRESS CORE ###################
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/target-type: instance
+      # alb.ingress.kubernetes.io/target-node-labels: "role=services"
+      #########################################################
+      ##################### SSL SETTINGS ###################### https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.5/guide/tasks/ssl_redirect/
+      # the ALB will fetch the right certificate from ACM
+      # you can also specify manually using `alb.ingress.kubernetes.io/certificate-arn` annotation on the Ingress
+      # https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/guide/ingress/annotations/#certificate-arn
+      alb.ingress.kubernetes.io/certificate-arn: "arn:aws:acm:eu-central-1:969852750332:certificate/3af76da4-345b-4169-8c62-ce17616dd665" # can be more than one with , # If not specified, ingress automatically try to find it in ACM.
+      alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
+      alb.ingress.kubernetes.io/ssl-redirect: '443'
+      alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-TLS-1-2-Ext-2018-06 # ELBSecurityPolicy-TLS-1-1-2017-01
+      nginx.ingress.kubernetes.io/use-regex: "true" # Use Regex
+      nginx.ingress.kubernetes.io/rewrite-target: /$2 # ALLOW Rewrites
+      alb.ingress.kubernetes.io/backend-protocol: HTTP # HTTP or HTTPS - set which protocol will be used in backend
+      alb.ingress.kubernetes.io/proxy-ssl-verify: "off" ## TEST
+      alb.ingress.kubernetes.io/healthcheck-protocol: HTTP
+      #########################################################
+      #################### ALB AUDIT LOGS #####################
+      # alb.ingress.kubernetes.io/load-balancer-attributes: "access_logs.s3.enabled=true,access_logs.s3.bucket=dc-eu-ent-eu-central-1-co-logs,access_logs.s3.prefix=eks_nginx_ingress_access_logs,idle_timeout.timeout_seconds=600"
+      alb.ingress.kubernetes.io/ip-address-type: ipv4 # ipv4 | dualstack
+      #########################################################
+      ################### SECURITY SETTINGS ###################
+      alb.ingress.kubernetes.io/inbound-cidrs: 0.0.0.0/0
+      #########################################################
+      ##################### HEALTH CHECK ######################
+      alb.ingress.kubernetes.io/healthcheck-port: '80'
+      alb.ingress.kubernetes.io/healthcheck-path: /
+      # alb.ingress.kubernetes.io/healthcheck-port: healthcheck
+      # alb.ingress.kubernetes.io/healthcheck-path: /healthz # Put the path of readiness probe over here
+      alb.ingress.kubernetes.io/healthcheck-interval-seconds: '15'
+      alb.ingress.kubernetes.io/healthcheck-timeout-seconds: '5'
+      alb.ingress.kubernetes.io/success-codes: '200' # or 200-300 without ''
+      alb.ingress.kubernetes.io/healthy-threshold-count: '2'
+      alb.ingress.kubernetes.io/unhealthy-threshold-count: '2'
+      #########################################################
+      ###### GROUPING INGRESS FROM DIFFERENT NAMESPACES #######
+      alb.ingress.kubernetes.io/group.name: group
+      alb.ingress.kubernetes.io/group.order: '4'
+      #########################################################
+      ############## EXTERNAL-DNS CONFIGURATIONS ##############
+      external-dns.alpha.kubernetes.io/ingress-hostname-source: annotation-only # defined-hosts-only or annotation-only # https://github.com/kubernetes-sigs/external-dns/blob/master/docs/faq.md
+      #########################################################
+      ################## NGINX CONFIGURATIONS #################
+      # nginx.org/client-max-body-size: "8m"
+      # nginx.org/proxy-connect-timeout: 600s
+      # nginx.org/proxy-read-timeout: 600s
+      # nginx.ingress.kubernetes.io/proxy-body-size: 8m
+      # nginx.ingress.kubernetes.io/proxy-body-size: "32m" ######
+      # nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+      # nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+      # nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
+      # nginx.ingress.kubernetes.io/proxy-buffers-number: "8"
+      # nginx.ingress.kubernetes.io/client-body-buffer-size: "128k"
+      # cert-manager.io/cluster-issuer: letsencrypt-prod-http
+      # cert-manager.io/cluster-issuer: letsencrypt-staging
+      # cert-manager.io/cluster-issuer: letsencrypt-prod-dns-aws
+      # cert-manager.io/cluster-issuer: letsencrypt-stag-dns-aws
+      #########################################################
+      ################## PERMANENT REDIRECT ################### <== Used in maintenances
+      # nginx.ingress.kubernetes.io/permanent-redirect: "https://www.clearops.com"
+      #########################################################
+
       # |
       # kubernetes.io/ingress.class: nginx
       # kubernetes.io/tls-acme: "true"
@@ -426,7 +492,7 @@ server:
 
     # Optionally use ingressClassName instead of deprecated annotation.
     # See: https://kubernetes.io/docs/concepts/services-networking/ingress/#deprecated-annotation
-    ingressClassName: ""
+    ingressClassName: "alb"
 
     # As of Kubernetes 1.19, all Ingress Paths must have a pathType configured. The default value below should be sufficient in most cases.
     # See: https://kubernetes.io/docs/concepts/services-networking/ingress/#path-types for other possible values.
@@ -435,9 +501,21 @@ server:
     # When HA mode is enabled and K8s service registration is being used,
     # configure the ingress to point to the Vault active service.
     activeService: true
+    # hosts:
+      # - host: vault.euc1.ent.sc-cockpit.com
+      #   http:
+      #     paths:
+      #       - pathType: Prefix
+      #         path: /
+      #         backend:
+      #           service:
+      #             name: vault
+      #             port:
+      #               number: 8200
     hosts:
-      - host: chart-example.local
-        paths: []
+      - host: vault.euc1.ent.sc-cockpit.com
+        paths:
+          - /
     ## Extra paths to prepend to the host configuration. This is useful when working with annotation based services.
     extraPaths: []
     # - path: /*
@@ -446,7 +524,14 @@ server:
     #       name: ssl-redirect
     #       port:
     #         number: use-annotation
-    tls: []
+    # tls: []
+    tls:
+      - hosts:
+        - "ent.sc-cockpit.com"
+        - "*.ent.sc-cockpit.com"
+        - "euc1.ent.sc-cockpit.com"
+        - "*.euc1.ent.sc-cockpit.com"
+        secretName: tls-sccockpit-ent
     #  - secretName: chart-example-tls
     #    hosts:
     #      - chart-example.local
@@ -681,7 +766,9 @@ server:
   # Extra annotations to attach to the server pods
   # This can either be YAML or a YAML-formatted multi-line templated string map
   # of the annotations to apply to the server pods
-  annotations: {}
+  # annotations: {}
+  annotations:
+    argocd.argoproj.io/sync-options: Delete=false
 
   # Enables a headless service to be used by the Vault Statefulset
   service:
